@@ -1,0 +1,128 @@
+{% extends "bootstrap/base.html" %}
+{% block html %}
+{% block head %}
+    <meta charset="UTF-8">
+    <title>Kfejk by Retried</title>
+    {% block style %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='reset.css') }}"/>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+        <link href='https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500&display=swap' rel='stylesheet' type='text/css'>
+    {% endblock %}
+{% endblock %}
+{% block body %}
+    <nav class="nav-bar">
+        <div class="logo">
+            <a href="/">
+                <img src="/static/logo.png" alt="LOGO"/>
+            </a>
+        </div>
+        <div class="login-logout">
+            <!--jeżeli zalogowany znika login-->
+            <a href="/login" class="btn lime login">Zaloguj się</a>
+            <a href="/register" class="btn lime login">Zarejestruj się</a>
+            <a href="{{ url_for('logout') }}" class="btn dark login">Wyloguj się</a>
+        </div>
+    </nav>
+    <main>
+        <section class="fake-panel-only-for-flex-purposes">
+        </section>
+        <section class="memes">
+            <div class="meme">
+                <div class="meme-user">
+                    <div class="meme-user-image">
+                        <img src="/static/default-avatar.jpg" alt="img">
+                    </div>
+                    <p class="meme-user-name">Nickname</p>
+                </div>
+                <div class="meme-content">
+                    <div class="meme-title">Example title</div>
+                    <div class="meme-image">
+                        <a href="/static/memes/test1.jpg">
+                        <img src="/static/memes/test1.jpg" alt="meme-image" class="meme-image-content">
+                        </a>
+                    </div>
+                </div>
+                <div class="meme-footer">
+                    <!--wczytaj ilość reakcji-->
+                    <div class="meme-reactions">
+                        +999
+                    </div>
+                    <!--jeżeli zalogowany wyświetl buttona, możliwość dodania reakcji-->
+                    <button class="meme-add-reaction">
+                        +1
+                    </button>
+                </div>
+            </div>
+            <div class="meme">
+                <div class="meme-user">
+                    <div class="meme-user-image">
+                        <img src="/static/default-avatar.jpg" alt="img">
+                    </div>
+                    <p class="meme-user-name">Nickname</p>
+                </div>
+                <div class="meme-content">
+                    <div class="meme-title">Example title</div>
+                    <div class="meme-image">
+                        <a href="/static/memes/test2.jpg">
+                        <img src="/static/memes/test2.jpg" alt="meme-image" class="meme-image-content">
+                        </a>
+                    </div>
+                </div>
+                <div class="meme-footer">
+                    <!--wczytaj ilość reakcji-->
+                    <div class="meme-reactions">
+                        +999
+                    </div>
+                    <!--jeżeli zalogowany wyświetl buttona, możliwość dodania reakcji-->
+                    <button class="meme-add-reaction">
+                        +1
+                    </button>
+                </div>
+            </div>
+            <div class="meme">
+                <div class="meme-user">
+                    <div class="meme-user-image">
+                        <img src="/static/default-avatar.jpg" alt="img">
+                    </div>
+                    <p class="meme-user-name">Nickname</p>
+                </div>
+                <div class="meme-content">
+                    <div class="meme-title">Example title</div>
+                    <div class="meme-image">
+                        <a href="/static/memes/test3.jpg">
+                        <img src="/static/memes/test3.jpg" alt="meme-image" class="meme-image-content">
+                        </a>
+                    </div>
+                </div>
+                <div class="meme-footer">
+                    <!--wczytaj ilość reakcji-->
+                    <div class="meme-reactions">
+                        +999
+                    </div>
+                    <!--jeżeli zalogowany wyświetl buttona, możliwość dodania reakcji-->
+                    <button class="meme-add-reaction">
+                        +1
+                    </button>
+                </div>
+            </div>
+        </section>
+        <section class="user-panel">
+            <div class="user-panel-user-data">
+                <div class="user-data-image">
+                    <img src="/static/default-avatar.jpg" alt="img" class="user-image">
+                    <a href="avatar" class="change-avatar"><img src="/static/plus.png" alt="123"></a>
+                </div>
+                <div class="user-data-nickname">
+                    {{ name }}
+                </div>
+            </div>
+            <div class="add-meme">
+                <a href="add" class="btn lime">Dodaj mema</a>
+            </div>
+        </section>
+    </main>
+    <footer class="footer">
+        <a href="https://github.com/Retried" class="footer-content">&copy; Doga Company</a>
+    </footer>
+{% endblock %}
+{% endblock %}

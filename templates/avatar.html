@@ -1,0 +1,51 @@
+{% extends "bootstrap/base.html" %}
+{% block html %}
+{% block head %}
+    <meta charset="UTF-8">
+    <title>Kfejk by Retried</title>
+    {% block style %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='reset.css') }}"/>
+        <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}"/>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+        <link rel="stylesheet" href="{{ url_for('static', filename='add-change-data.css') }}"/>
+        <link href='https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500&display=swap' rel='stylesheet' type='text/css'>
+    {% endblock %}
+{% endblock %}
+{% block body %}
+    <nav class="nav-bar">
+        <div class="logo">
+            <a href="/">
+                <img src="/static/logo.png" alt="LOGO"/>
+            </a>
+        </div>
+        <div class="login-logout">
+            <!--jeżeli zalogowany znika login-->
+            <a href="login" class="btn lime login">Zaloguj się</a>
+            <a href="logout" class="btn dark login">Wyloguj się</a>
+        </div>
+    </nav>
+    <div class="log">
+        <section class="memes">
+            <div class="meme">
+                <form action="/upload" enctype="multipart/form-data" method="POST">
+                    <div class="user">
+                        <div class="user-image">
+                            <img src="/static/default-avatar.jpg" alt="img" class="old">
+                            <img src="/static/plus.png" alt="img" class="new">
+                            <input type="file" name="pic" class="new-pic"/>
+                        </div>
+                        <!--Wczytaj nickname użytkownika-->
+                        <p class="user-name">Nickname użytkownika</p>
+                    </div>
+                    <div class="meme-footer">
+                        <input type="submit" class="sbm" value="Zapisz"/>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </div>
+    <footer class="footer">
+        <a href="https://github.com/Retried" class="footer-content">&copy; Doga Company</a>
+    </footer>
+{% endblock %}
+{% endblock %}

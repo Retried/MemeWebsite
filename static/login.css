@@ -1,0 +1,84 @@
+.log {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form {
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+}
+
+.login-top {
+    width: 100%;
+    height: 50px;
+    background-color: var(--dark-50);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--lime-600);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+form.login {
+    width: 100%;
+    height: auto;
+    padding: 25px 75px 0 75px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: var(--dark-100);
+}
+
+.in-data {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 25px;
+    padding: 10px;
+    color: var(--light-50);
+    text-transform: uppercase;
+}
+
+.in-data label {
+    font-size: 12px;
+}
+
+.in {
+    border: none;
+    background-color: transparent;
+    color: var(--light-50);
+    height: 40px;
+    border-bottom: 2px var(--lime-600) solid;
+    font-size: 20px;
+}
+
+.in:focus {
+    outline: none;
+    transition: .5s color;
+    color: var(--lime-600);
+}
+
+.submit {
+    width: 500px;
+    height: 50px;
+    margin-left: -75px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--dark-50);
+}
+
+.sbm {
+    border-radius: 5px;
+    border: none;
+    padding: 5px 10px;
+    font-size: 14px;
+    background-color: var(--lime-600);
+    color: var(--dark-150);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}

@@ -1,0 +1,21 @@
+{% extends "bootstrap/base.html" %}
+{% block html %}
+{% block head %}
+    <meta charset="UTF-8">
+    <title>Kfejk by Retried</title>
+    {% block style %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='reset.css') }}"/>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+        <link href='https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500&display=swap' rel='stylesheet' type='text/css'>
+    {% endblock %}
+{% endblock %}
+{% block body %}
+<!--To na dole do przeróbki bo ten center to nielegalny jest-->
+<div style="text-align: center;"><h1>Wylecisz z kapci za 3 sekundy</h1></div>
+<script>
+    setTimeout(function(){
+        window.location.href = '/';
+    }, 3000);
+</script>
+{% endblock %}
+{% endblock %}

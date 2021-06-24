@@ -1,0 +1,58 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block html %}
+{% block head %}
+    <meta charset="UTF-8">
+    <title>Kfejk by Retried</title>
+    {% block style %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='reset.css') }}"/>
+        <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}"/>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+        <link href='https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500&display=swap' rel='stylesheet' type='text/css'>
+    {% endblock %}
+{% endblock %}
+{% block body %}
+    <nav class="nav-bar">
+        <div class="logo">
+            <a href="/">
+                <img src="/static/logo.png" alt="LOGO"/>
+            </a>
+        </div>
+        <div class="login-logout">
+            <!--jeżeli zalogowany znika login-->
+        </div>
+    </nav>
+    <div class="log">
+        <div class="login-form">
+            <div class="login-top">
+                logowanie
+            </div>
+            <!--metody, action itp.-->
+            <form action="/login" class="login" method="POST">
+                {{ form.hidden_tag() }}
+                <div class="in-data">
+                    {{ wtf.form_field(form.username) }}
+                    <!--<<label for="login">Nazwa użytkownika</label>
+                    <input type="text" class="in" id="login" name="login" placeholder="Username">-->
+                </div>
+                <div class="in-data">
+                    {{ wtf.form_field(form.password) }}
+                    <!--<label for="pass">Hasło</label>
+                    <input type="text" class="in" id="pass" name="pass" placeholder="Password">-->
+                </div>
+                <div class="in-data">
+                    {{ wtf.form_field(form.remember) }}
+                </div>
+                <div class="submit">
+                    <input type="submit" class="sbm" value="Zaloguj się">
+                    <a href="/register" class="btn lime login">Zarejestruj się</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <footer class="footer">
+        <a href="https://github.com/Retried" class="footer-content">&copy; Doga Company</a>
+    </footer>
+{% endblock %}
+{% endblock %}
