@@ -251,3 +251,8 @@ main {
     margin-top: 20px;
     justify-content: center;
 }
+
+#point {
+    background-color: var(--dark-150);
+    color: var(--lime-600);
+}

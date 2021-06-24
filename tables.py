@@ -26,3 +26,9 @@ class Img(db.Model):
 
     def __repr__(self):
         return f"Post('{self.name}', '{self.autor}')"
+
+
+class Upvote(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    img_id = db.Column(db.Integer, db.ForeignKey('img.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)

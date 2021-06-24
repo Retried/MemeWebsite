@@ -20,7 +20,6 @@
             </a>
         </div>
         <div class="login-logout">
-            <!--jeżeli zalogowany znika login-->
         </div>
     </nav>
     <div class="log">
@@ -28,22 +27,16 @@
             <div class="login-top">
                 logowanie
             </div>
-            <!--metody, action itp.-->
             <form action="/login" class="login" method="POST">
                 {{ form.hidden_tag() }}
                 <div class="in-data">
                     {{ wtf.form_field(form.username) }}
-                    <!--<<label for="login">Nazwa użytkownika</label>
-                    <input type="text" class="in" id="login" name="login" placeholder="Username">-->
                 </div>
                 <div class="in-data">
                     {{ wtf.form_field(form.password) }}
-                    <!--<label for="pass">Hasło</label>
-                    <input type="text" class="in" id="pass" name="pass" placeholder="Password">-->
                 </div>
                 <div class="submit">
                     {{ wtf.form_field(form.login) }}
-                    <!--<input type="submit" class="sbm" value="Zaloguj się">-->
                 </div>
             </form>
             <a href="/register" class="reg-link">Nie masz konta? Zarejestruj się.</a>

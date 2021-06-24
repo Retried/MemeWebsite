@@ -11,6 +11,24 @@
         <link href='https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500&display=swap' rel='stylesheet' type='text/css'>
     {% endblock %}
 {% endblock %}
+<script>
+    async function vote(image) {
+    const response = await fetch('/vote', {
+        method: 'POST',
+        body: image
+    });
+        const alert = document.createElement('div')
+        alert.style = "width: 100px; height: 30px; background: green; position: fixed; bottom: 10px; right: 20px; padding: 5px; z-index: 100; border-radius: 10px; text-align: center;"
+        alert.textContent = "Polubiono!"
+        alert.classList.add("alert")
+        document.body.appendChild(alert)
+        setTimeout(() => {
+            document.getElementsByClassName('alert')[0].remove()
+        }, 2000)
+        document.querySelector(`#img-${image}`).remove()
+    return false;
+}
+</script>
 {% block body %}
     <nav class="nav-bar">
         <div class="logo">
@@ -48,85 +66,28 @@
                     </div>
                 </div>
                 <div class="meme-footer">
-                    <!--wczytaj ilość reakcji-->
                     <div class="meme-reactions">
                         +{{img.points}}
                     </div>
-                    <!--jeżeli zalogowany wyświetl buttona, możliwość dodania reakcji-->
                     {% if current_user.is_authenticated %}
                         {% if img.autor != current_user.username %}
-                            <form method ="post" action="/" id="{{img.id}}">
-                                {{ wtf.form_field(form.point) }}
-                                <!--<button class="meme-add-reaction" id="">
-                                    +1
-                                </button>-->
-                            </form>
+                                <form onclick="vote({{ img.id }})" onsubmit="return false" id="img-{{ img.id }}">
+                                    {{ wtf.form_field(form.point) }}
+                                </form>
                         {% endif %}
                     {% endif %}
                 </div>
             </div>
             {% endfor %}
-            <!--<div class="meme">
-                <div class="meme-user">
-                    <div class="meme-user-image">
-                        <img src="/static/default-avatar.jpg" alt="img">
-                    </div>
-                    <p class="meme-user-name">Nickname</p>
-                </div>
-                <div class="meme-content">
-                    <div class="meme-title">Example title</div>
-                    <div class="meme-image">
-                        <a href="/static/memes/test2.jpg">
-                        <img src="/static/memes/test2.jpg" alt="meme-image" class="meme-image-content">
-                        </a>
-                    </div>
-                </div>
-                <div class="meme-footer">
-                    wczytaj ilość reakcji
-                    <div class="meme-reactions">
-                        +999
-                    </div>
-                    jeżeli zalogowany wyświetl buttona, możliwość dodania reakcji
-                    <button class="meme-add-reaction">
-                        +1
-                    </button>
-                </div>
-            </div>-->
-            <!--<div class="meme">
-                <div class="meme-user">
-                    <div class="meme-user-image">
-                        <img src="/static/default-avatar.jpg" alt="img">
-                    </div>
-                    <p class="meme-user-name">Nickname</p>
-                </div>
-                <div class="meme-content">
-                    <div class="meme-title">Example title</div>
-                    <div class="meme-image">
-                        <a href="/static/memes/test3.jpg">
-                        <img src="/static/memes/test3.jpg" alt="meme-image" class="meme-image-content">
-                        </a>
-                    </div>
-                </div>
-                <div class="meme-footer">
-                    wczytaj ilość reakcji
-                    <div class="meme-reactions">
-                        +999
-                    </div>
-                    jeżeli zalogowany wyświetl buttona, możliwość dodania reakcji
-                    <button class="meme-add-reaction">
-                        +1
-                    </button>
-                </div>
-            </div>-->
         </section>
         <section class="user-panel">
             <div class="user-panel-user-data">
                 <div class="user-data-image">
                     {% if current_user.is_authenticated %}
                         <img src="{{ image_file }}" alt="img" class="user-image">
-                        <a href="avatar" class="change-avatar"><img src="/static/plus.png" alt="123"></a>
+                        <a href="/avatar" class="change-avatar"><img src="/static/plus.png" alt="123"></a>
                     {% else %}
-                        <a href="avatar"><img src="{{ image_file }}" alt="123" ></a>
+                        <a href="/avatar"><img src="{{ image_file }}" alt="123" ></a>
                     {% endif %}
                 </div>
                 <div class="user-data-nickname">
@@ -134,7 +95,7 @@
                 </div>
             </div>
             <div class="add-meme">
-                <a href="add" class="btn lime">Dodaj mema</a>
+                <a href="/add" class="btn lime">Dodaj mema</a>
             </div>
         </section>
     </main>

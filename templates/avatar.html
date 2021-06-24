@@ -37,8 +37,6 @@
                     <div class="user">
                         <div class="user-image">
                             <img src="{{ image_file }}" alt="img" class="old">
-                            <img src="/static/plus.png" alt="img" class="new">
-                            {{ form.picture(class="new-pic") }}
                             <!--<input type="file" name="pic" class="new-pic"/>-->
                         </div>
                         {% if form.picture.errors %}
@@ -48,6 +46,12 @@
                         {% endif %}
                         <!--Wczytaj nickname użytkownika-->
                         <p class="user-name">{{ name }}</p>
+                    </div>
+                    <div>
+                            {{ form.hidden_tag() }}
+                            <div class="add-pic">
+                                {{ form.picture(class="new-pic") }}
+                            </div>
                     </div>
                     <div class="meme-footer">
                         {{ wtf.form_field(form.save) }}

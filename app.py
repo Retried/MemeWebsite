@@ -1,14 +1,14 @@
 import os
 import secrets
 
-from flask import Flask, render_template, request, Response, redirect, url_for, flash
+from flask import Flask, render_template, request, Response, redirect, url_for, flash, jsonify
 from flask_bootstrap import Bootstrap
 from PIL import Image
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 
 from db import db_init, db
-from tables import Img, User
+from tables import Img, User, Upvote
 from forms import LoginForm, RegisterForm, AvatarForm, UploadForm, PointsForm
 
 app = Flask(__name__)
@@ -35,13 +35,10 @@ def index():
         current_user.username = "Gość"
         current_user.image_file = "default-avatar.jpg"
     form = PointsForm()
-    # if form.validate_on_submit():
-    #    img_id = request.form[id]
-    #    print(button)
-
     imgs = Img.query
+    upvotes = Upvote.query
     image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
-    return render_template('index.html', name=current_user.username, imgs=imgs, image_file=image_file, form=form)
+    return render_template('index.html', name=current_user.username, imgs=imgs, image_file=image_file, form=form, upvotes=upvotes, exist=0)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -55,7 +52,6 @@ def login():
             return redirect(url_for('index'))
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
-        # return '<h1>' + form.username.data + ' ' + form.password.data + '</h1>'
 
     return render_template('login.html', form=form)
 
@@ -73,7 +69,6 @@ def register():
         flash('Your account has been created! You are now able to log in', 'success')
 
         return redirect('/login')
-        # return '<h1>' + form.username.data + ' ' + form.password.data + ' ' + form.email.data + '</h1>'
 
     return render_template('register.html', form=form)
 
@@ -105,7 +100,8 @@ def add():
         db.session.commit()
 
         return redirect('/')
-    return render_template('addMeme.html', form=form, name=current_user.username)
+    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+    return render_template('addMeme.html', form=form, name=current_user.username, image_file=image_file)
 
 
 @app.route('/<int:number>')
@@ -117,14 +113,6 @@ def get_img(number):
     return Response(img.img, mimetype=img.mimetype)
 
 
-# @app.route('/avatar/<int:number>')
-# def get_avatar(number):
-#    avatar = Avatar.query.filter_by(id=number).first()
-#    if not avatar:
-#        return 'Img Not Found!', 404
-#
-#    return Response(avatar.img, mimetype=avatar.mimetype)
-
 def save_picture(form_picture):
     random_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)
@@ -135,6 +123,10 @@ def save_picture(form_picture):
     i = Image.open(form_picture)
     i.thumbnail(output_size)
     i.save(picture_path)
+
+    prev_picture = os.path.join(app.root_path, 'static/profile_pics', current_user.image_file)
+    if os.path.exists(prev_picture) and not "default-avatar.jpg":
+        os.remove(prev_picture)
 
     return picture_fn
 
@@ -153,21 +145,18 @@ def avatar():
     image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
     return render_template('avatar.html', image_file=image_file, name=current_user.username, form=form)
 
-    # if form.validate_on_submit():
-    #    pic = request.files['pic']
-    #    if not pic:
-    #        return 'No pic uploaded!', 400
 
-    #    filename = current_user.username
-    #    mimetype = pic.mimetype
-    #    if not filename or not mimetype:
-    #        return 'Bad upload!', 400
+@app.route('/vote', methods=['POST'])
+@login_required
+def vote():
+    img = int(request.data)
+    vote = Upvote(img_id=img, user_id=current_user.id)
+    db.session.add(vote)
+    update = Img.query.filter_by(id=img).first()
+    update.points += 1
+    db.session.commit()
 
-    #    db.session.add(avatars)
-    #    db.session.commit()
-
-    #    return redirect('/')
-    # return render_template('avatar.html', form=form, name=current_user.username)
+    return jsonify()
 
 
 if __name__ == '__main__':
