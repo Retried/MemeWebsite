@@ -1,4 +1,6 @@
 {% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
 {% block html %}
 {% block head %}
     <meta charset="UTF-8">
@@ -18,42 +20,53 @@
         </div>
         <div class="login-logout">
             <!--jeżeli zalogowany znika login-->
-            <a href="/login" class="btn lime login">Zaloguj się</a>
-            <a href="/register" class="btn lime login">Zarejestruj się</a>
-            <a href="{{ url_for('logout') }}" class="btn dark login">Wyloguj się</a>
+            {% if current_user.is_authenticated %}
+                <a href="/logout" class="btn dark login">Wyloguj się</a>
+            {% else %}
+                <a href="/login" class="btn lime login">Zaloguj się</a>
+            {% endif %}
         </div>
     </nav>
     <main>
         <section class="fake-panel-only-for-flex-purposes">
         </section>
         <section class="memes">
+            {% for img in imgs[::-1] %}
             <div class="meme">
                 <div class="meme-user">
                     <div class="meme-user-image">
-                        <img src="/static/default-avatar.jpg" alt="img">
+                        <img src="{{ url_for('static', filename='profile_pics/' + img.author.image_file) }}" alt="img">
                     </div>
-                    <p class="meme-user-name">Nickname</p>
+                    <p class="meme-user-name">{{img.autor}}</p>
                 </div>
                 <div class="meme-content">
-                    <div class="meme-title">Example title</div>
+                    <div class="meme-title">{{img.name}}</div>
                     <div class="meme-image">
-                        <a href="/static/memes/test1.jpg">
-                        <img src="/static/memes/test1.jpg" alt="meme-image" class="meme-image-content">
+                        <a href="/{{img.id}}">
+                        <img src="/{{img.id}}" alt="meme-image" class="meme-image-content">
                         </a>
                     </div>
                 </div>
                 <div class="meme-footer">
                     <!--wczytaj ilość reakcji-->
                     <div class="meme-reactions">
-                        +999
+                        +{{img.points}}
                     </div>
                     <!--jeżeli zalogowany wyświetl buttona, możliwość dodania reakcji-->
-                    <button class="meme-add-reaction">
-                        +1
-                    </button>
+                    {% if current_user.is_authenticated %}
+                        {% if img.autor != current_user.username %}
+                            <form method ="post" action="/" id="{{img.id}}">
+                                {{ wtf.form_field(form.point) }}
+                                <!--<button class="meme-add-reaction" id="">
+                                    +1
+                                </button>-->
+                            </form>
+                        {% endif %}
+                    {% endif %}
                 </div>
             </div>
-            <div class="meme">
+            {% endfor %}
+            <!--<div class="meme">
                 <div class="meme-user">
                     <div class="meme-user-image">
                         <img src="/static/default-avatar.jpg" alt="img">
@@ -69,17 +82,17 @@
                     </div>
                 </div>
                 <div class="meme-footer">
-                    <!--wczytaj ilość reakcji-->
+                    wczytaj ilość reakcji
                     <div class="meme-reactions">
                         +999
                     </div>
-                    <!--jeżeli zalogowany wyświetl buttona, możliwość dodania reakcji-->
+                    jeżeli zalogowany wyświetl buttona, możliwość dodania reakcji
                     <button class="meme-add-reaction">
                         +1
                     </button>
                 </div>
-            </div>
-            <div class="meme">
+            </div>-->
+            <!--<div class="meme">
                 <div class="meme-user">
                     <div class="meme-user-image">
                         <img src="/static/default-avatar.jpg" alt="img">
@@ -95,22 +108,26 @@
                     </div>
                 </div>
                 <div class="meme-footer">
-                    <!--wczytaj ilość reakcji-->
+                    wczytaj ilość reakcji
                     <div class="meme-reactions">
                         +999
                     </div>
-                    <!--jeżeli zalogowany wyświetl buttona, możliwość dodania reakcji-->
+                    jeżeli zalogowany wyświetl buttona, możliwość dodania reakcji
                     <button class="meme-add-reaction">
                         +1
                     </button>
                 </div>
-            </div>
+            </div>-->
         </section>
         <section class="user-panel">
             <div class="user-panel-user-data">
                 <div class="user-data-image">
-                    <img src="/static/default-avatar.jpg" alt="img" class="user-image">
-                    <a href="avatar" class="change-avatar"><img src="/static/plus.png" alt="123"></a>
+                    {% if current_user.is_authenticated %}
+                        <img src="{{ image_file }}" alt="img" class="user-image">
+                        <a href="avatar" class="change-avatar"><img src="/static/plus.png" alt="123"></a>
+                    {% else %}
+                        <a href="avatar"><img src="{{ image_file }}" alt="123" ></a>
+                    {% endif %}
                 </div>
                 <div class="user-data-nickname">
                     {{ name }}

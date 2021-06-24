@@ -187,6 +187,8 @@ main {
     background-color: var(--dark-50);
     display: flex;
     flex-direction: column;
+    position: sticky;
+    top: 100px;
 }
 
 .user-panel-user-data {

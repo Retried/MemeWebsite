@@ -47,9 +47,11 @@
                     <input type="text" class="in" id="pass" name="pass" placeholder="Ex@mpleStr0ngP455w0rd">-->
                 </div>
                 <div class="submit">
-                    <input type="submit" class="sbm" value="Zarejestruj się">
+                    {{ wtf.form_field(form.register) }}
+                    <!--<input type="submit" class="sbm" value="Zarejestruj się">-->
                 </div>
             </form>
+            <a href="/login" class="reg-link">Masz konto? Zaloguj się.</a>
         </div>
     </div>
     <footer class="footer">

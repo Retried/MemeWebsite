@@ -1,4 +1,6 @@
 {% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
 {% block html %}
 {% block head %}
     <meta charset="UTF-8">
@@ -20,32 +22,39 @@
         </div>
         <div class="login-logout">
             <!--jeżeli zalogowany znika login-->
-            <a href="login" class="btn lime login">Zaloguj się</a>
-            <a href="logout" class="btn dark login">Wyloguj się</a>
+            {% if current_user.is_authenticated %}
+                <a href="logout" class="btn dark login">Wyloguj się</a>
+            {% else %}
+                <a href="login" class="btn lime login">Zaloguj się</a>
+            {% endif %}
         </div>
     </nav>
     <div class="log">
         <section class="memes">
             <div class="meme">
-                <form action="/upload" enctype="multipart/form-data" method="POST">
+                <form action="/add" enctype="multipart/form-data" method="POST">
                     <div class="meme-user">
                         <div class="meme-user-image">
                             <img src="/static/default-avatar.jpg" alt="img">
                         </div>
                         <!--Wczytaj nickname użytkownika-->
-                        <p class="meme-user-name">Nickname użytkownika</p>
+                        <p class="meme-user-name">{{ name }}</p>
                     </div>
                     <div class="meme-title">
+                        {{ form.hidden_tag() }}
                         <div class="title">
-                            <label for="title">Example title</label>
-                            <input type="text" class="in" id="title" name="title" placeholder="Tytuł mema">
+                            {{ wtf.form_field(form.title) }}
+                            <!--<label for="title">Example title</label>
+                            <input type="text" class="in" id="title" name="title" placeholder="Tytuł mema">-->
                         </div>
                         <div class="meme-image">
-                            <input type="file" class="pic" name="pic" />
+                            {{ form.picture(class="pic") }}
+                            <!--<input type="file" class="pic" name="pic"/>-->
                         </div>
                     </div>
                     <div class="meme-footer">
-                        <input type="submit" class="sbm" value="Prześlij"/>
+                        {{ wtf.form_field(form.send) }}
+                        <!--<input type="submit" class="sbm" value="Prześlij"/>-->
                     </div>
                 </form>
             </div>
