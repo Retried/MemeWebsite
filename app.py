@@ -38,7 +38,7 @@ def index():
     imgs = Img.query
     upvotes = Upvote.query
     image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
-    return render_template('index.html', name=current_user.username, imgs=imgs, image_file=image_file, form=form, upvotes=upvotes, exist=0)
+    return render_template('index.html', name=current_user.username, imgs=imgs, image_file=image_file, form=form, upvotes=upvotes)
 
 
 @app.route('/login', methods=['GET', 'POST'])
